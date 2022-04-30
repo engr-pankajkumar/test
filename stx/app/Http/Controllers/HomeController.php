@@ -176,7 +176,9 @@ class HomeController extends Controller
                     ];
 
 
-                    $companies = CompanyRepository::findBy($where);
+                    // $companies = CompanyRepository::findBy($where);
+
+                    $companies = CompanyRepository::getStocks($where);
                     $status = 1;
                     $error = false;
                     $payload = [];
@@ -188,7 +190,7 @@ class HomeController extends Controller
 
                     // $payload['news'] = SupplierNews::getSupplierNewsForFrontEnd($clientId)->get();
                     $payload['scrips'] = $viewHtml;
-                    $payload['stats'] = SolrHelper::getStats($filter);
+                    // $payload['stats'] = SolrHelper::getStats($filter);
                     
                 }
 

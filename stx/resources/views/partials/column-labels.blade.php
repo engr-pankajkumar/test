@@ -12,7 +12,7 @@
                 $columnsHeaders = Config::get('constant.columnHeader');
               @endphp
                 @foreach( $columnsHeaders as $key => $value)
-                  <a href="javascript:void(0);" class="badge badge-success btn-sm badge-cols badge-secondary" data-key="{{ $loop->iteration }}">{{ $key }}</a>
+                  <a href="javascript:void(0);" class="badge badge-success btn-sm badge-cols badge-secondary draggable" data-key="{{ $loop->iteration }}">{{ $key }}</a>
                 @endforeach
               <!-- <a href="#" class="badge badge-primary btn-md">Primary</a>
               <a href="#" class="badge badge-secondary btn-md">Secondary</a>

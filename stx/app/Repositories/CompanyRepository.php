@@ -46,12 +46,54 @@ class CompanyRepository extends Repository
         
         $dateColumn = $userTrxTable.'.CreatedOn';
 
-        $this->queryByFrequency($dataQuery, $dateColumn, $frequency, $year, $period);
+        // $this->queryByFrequency($dataQuery, $dateColumn, $frequency, $year, $period);
 
         $dataQuery->groupBy($userTrxTable.'.UserId');
 
         	
         $dataQuery->orderBy('viewDownload', 'DESC')->limit(10);
+        
+        return  $dataQuery->get();
+    }
+
+    public function getStocks($filter = []) 
+    {
+        $companyTable = TableHelper::COMPANY;
+
+        $dataQuery      = $this->makeModel(); 
+
+        $dataQuery->select(
+            '*'
+        );  
+
+        if(count($filter)) {
+            $dataQuery->where($filter);
+        }
+
+        foreach (config('constant.notNullOrder') as $key => $column) {
+            $dataQuery->whereNotNull($column);
+        }
+
+
+        $searchOrder = config('constant.searchOrder');
+
+        foreach ($searchOrder as $column => $order) {
+            $dataQuery->orderBy($column, $order);
+        }
+
+        
+        // $dataQuery->where($userTrxTable.'.ClientId', $client);
+
+        // $dataQuery->whereIn($userTrxTable.'.ActionStatusId', config('constant.view_download_status'));
+        
+        // $dateColumn = $userTrxTable.'.CreatedOn';
+
+        // $this->queryByFrequency($dataQuery, $dateColumn, $frequency, $year, $period);
+
+        // $dataQuery->groupBy($userTrxTable.'.UserId');
+
+            
+        
         
         return  $dataQuery->get();
     }

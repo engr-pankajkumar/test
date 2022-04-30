@@ -2,16 +2,17 @@
 
 return [
 
-    'columnHeader' => [
+     'columnHeader' => [
           "Company" => 'company_name',
           "M CAP" => 'market_capitalization',
           "IND PE" => 'industry_pe',
           "PE" => 'price_to_earning',
           "PEG" => 'peg_ratio',
-          "ROCE" => 'return_on_capital_employed',
-          "ROE" => 'return_on_equity',
           "D/E" => 'debt_to_equity',
           "P/S" => 'price_to_sales',
+          "ROCE" => 'return_on_capital_employed',
+          "ROE" => 'return_on_equity',
+         
           "EV/EBITDA" => 'ev_ebitda',
           "P/B" => 'price_to_book_value',
           "Pro Gro" => 'profit_growth',
@@ -38,11 +39,23 @@ return [
           
           "ROCE 3 AVG" => 'average_return_on_capital_employed_3years',
           "ROCE 5 AVG" => 'average_return_on_capital_employed_5years',
-    ],
+     ],
 
-    
-    
+     'searchOrder' => [
+          'debt_to_equity' => 'ASC',
+          'peg_ratio' => 'ASC',
+          'return_on_capital_employed' => 'DESC',
+          'return_on_equity' => 'DESC',
+          'profit_growth' => 'DESC',
+     ],
 
+     'notNullOrder' => [
+          'bse_code',
+          'nse_code',
+          'peg_ratio',
+     ],
     
-
 ];
+
+
+ 

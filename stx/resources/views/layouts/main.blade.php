@@ -40,6 +40,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/datatables.min.css') }}">
 
     <link href="{{asset('plugins/ion.rangeslider/css/ion.rangeSlider.css')}}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}"></script>
     @stack('css')
 
 </head>
@@ -79,7 +80,7 @@
     <!-- Required Jquery -->
       <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
       
-      <script type="text/javascript" src="{{ asset('jquery-ui/jquery-ui.min.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
       <!-- <script type="text/javascript" src="{{ asset('popper.js/js/popper.min.js') }}"></script> -->
       <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>

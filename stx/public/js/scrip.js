@@ -12,7 +12,9 @@ function Scrip() {
 	};
 
 	const initialConfiguration = function() {
-
+		// $(".draggable" ).draggable({
+		  
+		// });
 
 
 		$("#test1,#test2,#test3,#test4,#test5,#test6").ionRangeSlider({
@@ -55,6 +57,8 @@ function Scrip() {
 	        disableIfEmpty: true
 	    });
 
+
+		
 
 	    pageActions();
 
