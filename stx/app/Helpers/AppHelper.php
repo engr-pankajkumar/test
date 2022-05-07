@@ -29,4 +29,28 @@ class AppHelper
         return $industries;
     }
 
+    public static function createDropDown($field) 
+    {
+        $options = [];
+        $lessThanPrefix = config('constant.filterOptionPrefix')['lte'];
+        $graterThanPrefix = config('constant.filterOptionPrefix')['gte'];
+        for($step = $field['min']; $step <= $field['max']; $step = $step + $field['step']) {
+            if($step == $field['min']) {
+                $index = ' <= '.$step;
+                $options[$lessThanPrefix . '-' . $step] = $index;
+            } else if($step == $field['max']) {
+                $index = ' >= '.$step;
+                $options[$graterThanPrefix . '-' . $step] = $index;
+            } else {
+                $prevStep = $step - $field['step'];
+                $index = $prevStep . ' - ' . $step;
+                // $options[] = $prevStep . ' - ' . $step;
+                $options[$index] = $index;
+            }
+            
+        }
+        return $options;
+        dd($options);
+    }
+
 }

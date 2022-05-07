@@ -8,8 +8,8 @@ return [
           "IND PE" => 'industry_pe',
           "PE" => 'price_to_earning',
           "PEG" => 'peg_ratio',
-          "D/E" => 'debt_to_equity',
-          "P/S" => 'price_to_sales',
+          "DE" => 'debt_to_equity',
+          "PS" => 'price_to_sales',
           "ROCE" => 'return_on_capital_employed',
           "ROE" => 'return_on_equity',
          
@@ -54,6 +54,22 @@ return [
           'nse_code',
           'peg_ratio',
      ],
+
+     'filter' => [
+          // "M CAP" =>[ 'min' =>0, 'max' => 3, 'step' => 0.5 ],
+          "PEG"  => [ 'min' =>0, 'max' => 3, 'step' => 0.5 ],
+          "DE"  => [ 'min' =>0, 'max' => 2, 'step' => 0.5 ],
+          "ROCE" => [ 'min' =>0, 'max' => 80, 'step' => 10 ],
+          "ROE" =>  [ 'min' =>0, 'max' => 80, 'step' => 10 ],
+          "PS" =>  [ 'min' =>0, 'max' => 30, 'step' => 5],
+     ],
+
+     'filterOptionPrefix' =>   [
+          'lt' => 'lt', // less than
+          'lte' => 'lte',// less than or equal to
+          'gt' => 'gt',// greater than
+          'gte' => 'gte',// greater than or equal to
+      ],
     
 ];
 

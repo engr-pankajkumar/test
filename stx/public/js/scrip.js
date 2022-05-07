@@ -47,14 +47,15 @@ function Scrip() {
 		// 	}
 		// });
 
-		jQuery('#sector-dropdown, #industry-dropdown').multiselect({
+		jQuery('#sector-dropdown, #industry-dropdown,.sfilter').multiselect({
 	        enableFiltering: true,
 	        enableCaseInsensitiveFiltering: true,
 	        allSelectedText: 'All',
 	        maxHeight: 200,
 	        includeSelectAllOption: true,
 	        buttonWidth: '100%',
-	        disableIfEmpty: true
+	        disableIfEmpty: true,
+	        selectAllValue: 'all'
 	    });
 
 
@@ -119,6 +120,34 @@ function Scrip() {
 			let cat_id  = $('#supplier_cat').val();
 
 			loadSuppliers(cat_id);
+
+		});
+
+		jQuery(document).on("change", ".sfilter" , function() {
+			// let cat_id  = $(this).val();
+
+			// console.log($(this).val());
+			let filters = {};
+			$('.sfilter').each(function(i,elem){
+				let id = $(elem).attr('id');
+				var allSelected = $("#"+id+" option:not(:selected)").length == 0;
+				// console.log(allSelected);
+				if(allSelected) {
+					filters[id] = [];
+				} else {
+					filters[id] = $(elem).val();
+				}
+				
+				// console.log($(elem).val());
+			});
+
+			loadScips(filters);
+
+			// console.log(filters);
+
+			// let cat_id  = $(elem).val();
+
+			// loadSuppliers(cat_id);
 
 		});
 
@@ -233,7 +262,7 @@ function Scrip() {
 		}
 	}
 
-	const loadScips = function() {
+	const loadScips = function(filters = []) {
 
 		let url  = root.BASE_PATH + '/scrips';
 
@@ -242,7 +271,8 @@ function Scrip() {
 
 		if(sector != '' && typeof(sector) != 'undefined' && industry != '' && typeof(industry) != 'undefined') {
 			
-			let data = {'sector' : sector, 'industry' : industry};
+			let data = {'sector' : sector, 'industry' : industry, 'filters': filters};
+			// console.log(data);
 			root.ajaxCall(url, data).done(function(response, status) {
 				console.log(response);
 				if(response.status) {

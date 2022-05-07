@@ -26,15 +26,25 @@
                             <div class="col-sm-12">
                                 <!-- Label card start -->
                                 
-                                    @include('partials.column-labels')
+                                    
+                                     @php
+                                /*
+                                @endphp
+                                @include('partials.column-labels')
+                                 @php
+                                 */
+                                @endphp
+                                    @include('partials.filters')
                                 <!-- Label card end -->
                             </div>
                         </div>
+
+                        
                         
                         <!-- Basic table card start -->
                         <div class="card">
                             <div class="card-header">
-                                <h5>Basic table</h5>
+                                <!-- <h5>Basic table</h5> -->
                                 <div class="card-header-right">    
                                   <ul class="list-unstyled card-option">        
                                     <li><i class="icofont icofont-simple-left "></i></li>        

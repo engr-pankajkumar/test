@@ -27,10 +27,10 @@
                     <label for="exampleInputEmail1">test1</label>
                      <input type="hidden" id="test1">
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="exampleInputPassword1">test2</label>
                     <input type="hidden" id="test2">
-                  </div>
+                  </div> -->
                 
             </ul> 
         </div> 

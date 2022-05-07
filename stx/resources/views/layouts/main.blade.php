@@ -37,11 +37,14 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/jquery.mCustomScrollbar.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/datatables.min.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/datatables.min.css') }}"> -->
 
     <link href="{{asset('plugins/ion.rangeslider/css/ion.rangeSlider.css')}}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}"></script>
     @stack('css')
+    <style type="text/css">html {
+  font-size: .9rem;
+}</style>
 
 </head>
 
@@ -85,7 +88,7 @@
       <!-- <script type="text/javascript" src="{{ asset('popper.js/js/popper.min.js') }}"></script> -->
       <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
       <script src="{{ asset('bootstrap4/js/bootstrap.min.js') }}"></script>
-       <script type="text/javascript" src="{{ asset('plugins/datatables/datatables.min.js') }}"></script>
+       <!-- <script type="text/javascript" src="{{ asset('plugins/datatables/datatables.min.js') }}"></script> -->
       <script src="{{ asset('js/base.js') }}"></script>
      
       <!-- Custom js -->

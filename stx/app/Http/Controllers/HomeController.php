@@ -141,6 +141,7 @@ class HomeController extends Controller
     public function getCompanies(Request $request)
     {
         try {
+            // return response()->json(['payload' => $request->input('filters'), 'error' => 0, 'status' => 1], 200);
             if($request->ajax()) {
                 $input = $request->all();
                 $rules = [
@@ -170,15 +171,17 @@ class HomeController extends Controller
                         'industry'  => $industry,
                     ];
 
-                    $filter = [
+                    $solrfilter = [
                         'sector_id' => $sector,
                         'industry_id' => $industry,
                     ];
 
+                    $stockFilters = $request->input('filters') ?? [];
+
 
                     // $companies = CompanyRepository::findBy($where);
 
-                    $companies = CompanyRepository::getStocks($where);
+                    $companies = CompanyRepository::getStocks($where, $stockFilters);
                     $status = 1;
                     $error = false;
                     $payload = [];
@@ -190,7 +193,7 @@ class HomeController extends Controller
 
                     // $payload['news'] = SupplierNews::getSupplierNewsForFrontEnd($clientId)->get();
                     $payload['scrips'] = $viewHtml;
-                    // $payload['stats'] = SolrHelper::getStats($filter);
+                    // $payload['stats'] = SolrHelper::getStats($solrfilter);
                     
                 }
 

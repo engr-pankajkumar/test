@@ -56,7 +56,7 @@ class CompanyRepository extends Repository
         return  $dataQuery->get();
     }
 
-    public function getStocks($filter = []) 
+    public function getStocks($where = [], $filters = []) 
     {
         $companyTable = TableHelper::COMPANY;
 
@@ -66,13 +66,55 @@ class CompanyRepository extends Repository
             '*'
         );  
 
-        if(count($filter)) {
-            $dataQuery->where($filter);
+        if(count($where)) {
+            $dataQuery->where($where);
         }
 
         foreach (config('constant.notNullOrder') as $key => $column) {
             $dataQuery->whereNotNull($column);
         }
+
+        if(count($filters)) {
+            // dd($filters);
+            foreach ($filters as $cols => $rows) {
+                $dbColumn = config('constant.columnHeader')[$cols];
+                # code...
+                $dataQuery->where(function($query) use($dbColumn, $rows){
+                    $index = 0;
+                    foreach ($rows as $row) {
+                        // dd($row);
+                        $range = explode('-', $row);
+
+                        $fromVal  = trim($range[0]);
+                        $toVal  = trim($range[1]);
+
+                        if($index == 0) {
+                            $whereClause = 'where';
+                            $whereBetweenClause = 'whereBetween';
+                        } else {
+                            $whereClause = 'orWhere';
+                            $whereBetweenClause = 'orWhereBetween';
+                        }
+                       
+                        if($fromVal == config('constant.filterOptionPrefix')['lte']) {
+                            $query->{$whereClause}($dbColumn, '<=',  (float)$toVal);
+                        } elseIf($fromVal == config('constant.filterOptionPrefix')['gte']) {
+                            $query->{$whereClause}($dbColumn, '>=',  (float)$toVal);
+                        } else {
+                            $query->{$whereBetweenClause}($dbColumn, [(float)$fromVal, (float)$toVal]);
+                        }
+                            
+                       
+                        $index++;
+                    }
+               });
+            }
+        }
+
+        // >where(function($query) use ($new_start_date, $new_end_date){
+        //           $query->whereBetween('starting_date', [$new_start_date,$new_end_date])
+        //                 ->orWhereBetween('ending_date', [$new_start_date,$new_end_date]);
+        //         })
 
 
         $searchOrder = config('constant.searchOrder');
