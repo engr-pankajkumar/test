@@ -17,6 +17,14 @@
     .fixedHeader{
       z-index: 50
     }
+    .sorting {
+      cursor: pointer;
+      color: black;
+    }
+    .sortActive {
+      cursor: pointer;
+      color: blue;
+    }
 
 </style>
 <!-- https://blogs.perficient.com/2021/01/18/freezing-row-and-column-in-html-table-using-css/
@@ -30,6 +38,11 @@ https://www.geeksforgeeks.org/how-to-create-a-table-with-fixed-header-and-scroll
           @php
             $columnsHeaders = Config::get('constant.columnHeader');
             $freezColumnClass = '';
+
+            $columnOrder = $columnOrder ?? [];
+
+            
+            
           @endphp
                 
           <thead>
@@ -37,13 +50,37 @@ https://www.geeksforgeeks.org/how-to-create-a-table-with-fixed-header-and-scroll
               @foreach( $columnsHeaders as $key => $value)
                 @php
                   if ($loop->first) {
+                      $iconAscClass = 'fa fa-lg fa-sort-alpha-asc';
+                      $iconDescClass = 'fa fa-lg fa-sort-alpha-desc';
                       $freezColumnClass = 'freezColumn fixedHeader';
                   } else {
-                     $freezColumnClass = '';
+                      $freezColumnClass = '';
+                      //$iconAscClass = 'fa fa-long-arrow-up';
+                      //$iconDescClass = 'fa fa-long-arrow-down';
+
+                      $iconAscClass = 'fa fa-lg fa-sort-amount-asc';
+                      $iconDescClass = 'fa fa-lg fa-sort-amount-desc';
                   }
+
+                  $columnsSort = $columnOrder[$key] ?? '';
+
+                  if($columnsSort == 'asc'){
+                      $ascSortActiveClass = 'sortActive';
+                      $descSortActiveClass = '';
+                  } else if($columnsSort == 'desc') {
+                      $ascSortActiveClass = '';
+                      $descSortActiveClass = 'sortActive';
+                  } else {
+                      $ascSortActiveClass = '';
+                      $descSortActiveClass = '';
+                  }
+
                 @endphp
 
-                <th class="{{ $freezColumnClass }}">{{ $key }}</th>
+                <th class="{{ $freezColumnClass }}">{{ $key }}
+                  <i class="sorting {{ $iconAscClass}} {{ $ascSortActiveClass }}" data-sort="asc" ></i> 
+                  <i class="sorting {{ $iconDescClass}} {{ $descSortActiveClass }}" data-sort="desc"></i>
+                </th>
               @endforeach
             </tr>
           </thead>

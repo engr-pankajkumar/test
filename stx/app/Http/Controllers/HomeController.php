@@ -141,7 +141,7 @@ class HomeController extends Controller
     public function getCompanies(Request $request)
     {
         try {
-            // return response()->json(['payload' => $request->input('filters'), 'error' => 0, 'status' => 1], 200);
+            // return response()->json(['payload' => $request->all(), 'error' => 0, 'status' => 1], 200);
             if($request->ajax()) {
                 $input = $request->all();
                 $rules = [
@@ -178,15 +178,17 @@ class HomeController extends Controller
 
                     $stockFilters = $request->input('filters') ?? [];
 
+                    $columnOrder = $request->input('sort') ?? [];
+
 
                     // $companies = CompanyRepository::findBy($where);
 
-                    $companies = CompanyRepository::getStocks($where, $stockFilters);
+                    $companies = CompanyRepository::getStocks($where, $stockFilters, $columnOrder);
                     $status = 1;
                     $error = false;
                     $payload = [];
 
-                    $view  = \View::make('partials.companies', compact('companies') );
+                    $view  = \View::make('partials.companies', compact('companies','columnOrder') );
 
                     $viewHtml = $view->render();
                     // return $viewHtml;

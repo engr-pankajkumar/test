@@ -16,6 +16,11 @@
                 @foreach($filters as $key => $val)
                     <div class="form-group col-md-2">
                       <label for="inputEmail4">{{ $key }}</label>
+                      <!-- <i class="fa fa-sort-numeric-desc" style="color: green;"></i> -->
+                  <!-- <i class="ti-arrow-up" style="color: black;"></i> -->
+                  <!-- <i class="ti-arrows-vertical"></i> -->
+                  <!-- <i class="ti-arrow-down"></i>  -->
+                  <!-- <i class="fa fa-sort-numeric-asc" style="color: blue;"></i> -->
                          @php
                             $options = AppHelper::createDropDown($val);
                             $fields = $key;

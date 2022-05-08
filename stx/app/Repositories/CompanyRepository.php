@@ -56,7 +56,7 @@ class CompanyRepository extends Repository
         return  $dataQuery->get();
     }
 
-    public function getStocks($where = [], $filters = []) 
+    public function getStocks($where = [], $filters = [], $columnOrders = []) 
     {
         $companyTable = TableHelper::COMPANY;
 
@@ -117,23 +117,24 @@ class CompanyRepository extends Repository
         //         })
 
 
-        $searchOrder = config('constant.searchOrder');
+        // $searchOrder = config('constant.searchOrder');
 
-        foreach ($searchOrder as $column => $order) {
-            $dataQuery->orderBy($column, $order);
+        // foreach ($searchOrder as $column => $order) {
+        //     $dataQuery->orderBy($column, $order);
+        // }
+
+        if(count($columnOrders)) {
+            foreach ($columnOrders as $column => $order) {
+                if($order) {
+                    $dbColumn = config('constant.columnHeader')[$column];
+                    // echo $column . '----' . $order;
+                    $dataQuery->orderBy($dbColumn, $order);
+                }
+            }
+
         }
 
-        
-        // $dataQuery->where($userTrxTable.'.ClientId', $client);
-
-        // $dataQuery->whereIn($userTrxTable.'.ActionStatusId', config('constant.view_download_status'));
-        
-        // $dateColumn = $userTrxTable.'.CreatedOn';
-
-        // $this->queryByFrequency($dataQuery, $dateColumn, $frequency, $year, $period);
-
-        // $dataQuery->groupBy($userTrxTable.'.UserId');
-
+       
             
         
         

@@ -5,6 +5,9 @@ function Scrip() {
 
 	const applyFilter	=  jQuery('button.applyFilter');
 
+	let colSort = {};
+	let filters = {};
+
     this.init =  function() {
 
     	root.baseInit();
@@ -111,23 +114,14 @@ function Scrip() {
 
 			jQuery('#supplier_by_cat').empty();
 			jQuery('#supplier_by_cat').multiselect('rebuild');
-			loadSourcingCountries(cat_id);
 		});
 
-		jQuery(document).on("change", "#supplier_sourcing_country" , function(e) {
-			// let cat_id  = $(this).val();
-
-			let cat_id  = $('#supplier_cat').val();
-
-			loadSuppliers(cat_id);
-
-		});
-
+		
 		jQuery(document).on("change", ".sfilter" , function() {
 			// let cat_id  = $(this).val();
 
 			// console.log($(this).val());
-			let filters = {};
+			
 			$('.sfilter').each(function(i,elem){
 				let id = $(elem).attr('id');
 				var allSelected = $("#"+id+" option:not(:selected)").length == 0;
@@ -141,7 +135,7 @@ function Scrip() {
 				// console.log($(elem).val());
 			});
 
-			loadScips(filters);
+			loadScips();
 
 			// console.log(filters);
 
@@ -149,6 +143,23 @@ function Scrip() {
 
 			// loadSuppliers(cat_id);
 
+		});
+
+		jQuery(document).on("click", ".sorting" , function() {
+			// alert('sds');
+			$(this).toggleClass('sortActive');
+			$(this).siblings().removeClass('sortActive');
+			let columns = $(this).parent('th').text().trim();
+
+			if($(this).hasClass('sortActive')) {
+				colSort[columns] = $(this).data('sort');
+			} else {
+				// colSort[columns] = '';
+				delete colSort[columns];
+			}
+
+			console.log(colSort);
+			loadScips();
 		});
 
 
@@ -262,7 +273,7 @@ function Scrip() {
 		}
 	}
 
-	const loadScips = function(filters = []) {
+	const loadScips = function() {
 
 		let url  = root.BASE_PATH + '/scrips';
 
@@ -270,9 +281,11 @@ function Scrip() {
 		let industry = jQuery('#industry-dropdown').val();
 
 		if(sector != '' && typeof(sector) != 'undefined' && industry != '' && typeof(industry) != 'undefined') {
+
+			// console.log(colSort);
 			
-			let data = {'sector' : sector, 'industry' : industry, 'filters': filters};
-			// console.log(data);
+			let data = {'sector' : sector, 'industry' : industry, 'filters': filters, 'sort':colSort};
+			console.log(data);
 			root.ajaxCall(url, data).done(function(response, status) {
 				console.log(response);
 				if(response.status) {

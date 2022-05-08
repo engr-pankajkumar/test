@@ -56,7 +56,7 @@ return [
      ],
 
      'filter' => [
-          // "M CAP" =>[ 'min' =>0, 'max' => 3, 'step' => 0.5 ],
+          // "M CAP" =>[ 'min' =>10000, 'max' => 2000000, 'step' => 100000 ],
           "PEG"  => [ 'min' =>0, 'max' => 3, 'step' => 0.5 ],
           "DE"  => [ 'min' =>0, 'max' => 2, 'step' => 0.5 ],
           "ROCE" => [ 'min' =>0, 'max' => 80, 'step' => 10 ],
@@ -72,6 +72,7 @@ return [
       ],
     
 ];
+
 
 
  
