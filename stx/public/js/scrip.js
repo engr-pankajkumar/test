@@ -61,8 +61,25 @@ function Scrip() {
 	        selectAllValue: 'all'
 	    });
 
+	    
 
-		
+	    $('#table-columns').multiselect({
+	    	enableFiltering: true,
+	        enableCaseInsensitiveFiltering: true,
+	        allSelectedText: 'All',
+	        maxHeight: 200,
+	        includeSelectAllOption: true,
+	        buttonWidth: '100%',
+	        disableIfEmpty: true,
+	        selectAllValue: 'all',
+            enableClickableOptGroups: true
+            // selectAll: false
+        });
+
+        jQuery('#table-columns').multiselect('selectAll', false);
+
+	    // jQuery("#table-columns").multiselect('updateButtonText');
+
 
 	    pageActions();
 
@@ -103,9 +120,9 @@ function Scrip() {
 		});
 
 	    jQuery(document).on("change", "#sector-dropdown" , function(e) {
-	    	let sector  = $(this).val();
+	    	// let sector  = $(this).val();
 
-			loadIndustry(sector);
+			loadIndustry();
 		});
 
 		jQuery(document).on("change", "#supplier_cat" , function(e) {
@@ -151,76 +168,25 @@ function Scrip() {
 			$(this).siblings().removeClass('sortActive');
 			let columns = $(this).parent('th').text().trim();
 
+			colSort = {};
+
 			if($(this).hasClass('sortActive')) {
 				colSort[columns] = $(this).data('sort');
 			} else {
 				// colSort[columns] = '';
-				delete colSort[columns];
+				// delete colSort[columns];
 			}
 
 			console.log(colSort);
 			loadScips();
 		});
 
-
-
-		
+		jQuery(document).on("change", "#table-columns" , function(e) {
+			manageColumns();
+		});		
 	};
 
-	
 
-	const loadCountryNews = function() {
-		$('.c-loader').show();
-		let url  = root.BASE_PATH + '/country-news';
-
-		let filterText = jQuery('#search_text_country').val();
-
-		let riskRange = jQuery('#country_range_val').val();
-
-		let risk_types = jQuery('#risk_types_country').val();
-
-		let country = jQuery('.country-filter').val();
-
-		let fromDate = jQuery('#from_date_country').val();
-		let toDate = jQuery('#to_date_country').val();
-
-
-		let data = {
-			'page': page.country,
-			'filterText' : filterText,
-			'riskRange' : riskRange,
-			'riskTypes' : risk_types,
-			'country' : country,
-			'fromDate' : fromDate,
-			'toDate' : toDate
-		};
-
-		// console.log(data);
-
-		root.ajaxCall(url, data).done(function(response, status) {
-			console.log(response);
-			if(response.status) {
-				let newsHtml = response.payload.country_news;
-				if(newsHtml != '') {
-					if(page.country == 1) {
-						$('.country-news').html(newsHtml);
-					} else {
-						$('.country-news').append(newsHtml);
-					}
-					loadRiskProgress();
-
-				} else {
-					if(page.country == 1) {
-						$('.country-news').html('No records to display.');
-					}
-					proceed.country = 0;
-				}
-
-				$('.c-loader').hide();
-	  		}
-
-	    }).fail(root.ajaxFailed);
-	}
 
 	const loadSectors = function() {
 		// let supplier_type  = $(this).val();
@@ -240,17 +206,20 @@ function Scrip() {
                 jQuery('#sector-dropdown').html($optStr);
                 // jQuery('#sector-dropdown').val('').multiselect('rebuild');
                 jQuery('#sector-dropdown').multiselect('rebuild');
+
+                loadIndustry();
 	  		}
 
 	    }).fail(root.ajaxFailed);
 	    
-	}
+	};
 
 	
 
-	const loadIndustry = function(sector) {
+	const loadIndustry = function() {
 
 		let url  = root.BASE_PATH + '/industries';
+		let sector = $('#sector-dropdown').val();
 		let data = {'sector' : sector};
 		
 		if(sector != '' && typeof(sector) != 'undefined') {
@@ -266,11 +235,12 @@ function Scrip() {
 	                });
 	                jQuery('#industry-dropdown').html($optStr);
 	                jQuery('#industry-dropdown').multiselect('rebuild');
+	                loadScips();
 		  		}
 
 		    }).fail(root.ajaxFailed);
 
-		}
+		};
 	}
 
 	const loadScips = function() {
@@ -293,12 +263,38 @@ function Scrip() {
 					
 					$('#company').html(scripHtml);
 					// initTable();
+
+					manageColumns();
 					
 		  		}
 
 		    }).fail(root.ajaxFailed);
 
 		}
+	};
+
+
+	const manageColumns = function() {
+
+		$('#table-columns option:not(:selected)').each(function(i,elem){
+    		// let colno = parseInt($(elem).val()) + 1;
+			// alert($(elem).val());
+			$('.col-'+$(elem).val()).hide();
+			// $('#stock-table th:nth-child('+colno+')').hide();
+			// $('#stock-table td:nth-child('+colno+')').hide();
+        	
+			// console.log(colno);
+		});
+
+		$('#table-columns option:selected').each(function(i,elem){
+			$('.col-'+$(elem).val()).show();
+   //  		let colno = parseInt($(elem).val()) + 1;
+			// // alert($(elem).val());
+			// $('#stock-table th:nth-child('+colno+')').show();
+			// $('#stock-table td:nth-child('+colno+')').show();
+        	
+			// console.log(colno);
+		});
 	}
 
 }

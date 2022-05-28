@@ -20,5 +20,28 @@ class SectorRepository extends Repository
         return 'App\Models\Sector';
     }
 
+    function fetchSectors() 
+    {
+        $sectorTable = TableHelper::SECTOR;
+
+        $dataQuery      = $this->makeModel(); 
+
+        
+	    $dataQuery->select(
+	    	$sectorTable . '.id',
+	    	$sectorTable . '.sector_name',
+	    );  
+
+        
+        
+        $dataQuery->where($sectorTable.'.status', 1);
+
+        $dataQuery->orderBy('is_favourite', 'DESC');
+        $dataQuery->orderBy('sector_name', 'ASC');
+        
+        return  $dataQuery->get();
+
+    }
+
 
 }

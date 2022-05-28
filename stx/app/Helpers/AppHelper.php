@@ -10,17 +10,28 @@ class AppHelper
     
     public function getSectors() 
     {
-        $sectors = SectorRepository::findBy(['status'=> 1],'get',  ['id', 'sector_name'])->pluck('sector_name', 'id');
+        // $sectors = SectorRepository::findBy(['status'=> 1],'get',  ['id', 'sector_name'])->pluck('sector_name', 'id');
+        $sectors = SectorRepository::fetchSectors()->pluck('sector_name', 'id');
 
-        return $sectors;
+        $finalData = [];
+        foreach ($sectors as $key => $value) {
+            $id = Crypt::encrypt($key);
+            $finalData[$id] = $value;
+        }
+
+        // dd($finalData);
+
+
+        return $finalData;
     }
 
 
     public function getIndustries($sector) 
     {
+        $sectorId =  Crypt::decrypt($sector);
         $where = [
             'status'=> 1,
-            'sector_id'=> $sector,
+            'sector_id'=> $sectorId,
         ];
 
         $industries = IndustryRepository::findBy($where,'get',  ['id', 'industry_name'])

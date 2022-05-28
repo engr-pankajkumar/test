@@ -49,7 +49,9 @@ class SolrHelper
 
                 // dd('delete');
 
-                $result = CompanyRepository::all();
+                $result = CompanyRepository::getStocks();
+
+                // $result = CompanyRepository::all();
 
                 $this->syncData($client, $result);
 

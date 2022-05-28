@@ -43,12 +43,12 @@ class HomeController extends Controller
 
     public function syncSolr()
     {
-        // SolrHelper::syncStocks();
+        SolrHelper::syncStocks();
         $filter = [
             'sector_id' => 43,
             'industry_id' => 5,
         ];
-        SolrHelper::getStats($filter);
+        // SolrHelper::getStats($filter);
 
     }
     public function getSectors(Request $request)
@@ -120,6 +120,8 @@ class HomeController extends Controller
                     return response()->json(['payload' => $payload, 'error'=>'validations', 'status'=> 0], 200);
                 } else {
                     $sectorId = $request->input('sector');
+
+
                     $sectors = AppHelper::getIndustries($sectorId);
                     $status = 1;
                     $error = false;
@@ -166,6 +168,8 @@ class HomeController extends Controller
                     $sector = $request->input('sector');
                     $industry = $request->input('industry');
 
+                    $sector =  Crypt::decrypt($sector);
+
                     $where = [
                         'sector'   => $sector,
                         'industry'  => $industry,
@@ -184,18 +188,22 @@ class HomeController extends Controller
                     // $companies = CompanyRepository::findBy($where);
 
                     $companies = CompanyRepository::getStocks($where, $stockFilters, $columnOrder);
+
+                    // dd($companies->toArray());
                     $status = 1;
                     $error = false;
                     $payload = [];
 
-                    $view  = \View::make('partials.companies', compact('companies','columnOrder') );
+                    $stats = [];//SolrHelper::getStats($solrfilter);
+
+                    $view  = \View::make('partials.companies', compact('companies','columnOrder', 'stats') );
 
                     $viewHtml = $view->render();
                     // return $viewHtml;
 
                     // $payload['news'] = SupplierNews::getSupplierNewsForFrontEnd($clientId)->get();
                     $payload['scrips'] = $viewHtml;
-                    // $payload['stats'] = SolrHelper::getStats($solrfilter);
+                    $payload['stats'] = $stats;
                     
                 }
 

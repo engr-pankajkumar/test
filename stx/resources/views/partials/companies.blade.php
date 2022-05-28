@@ -77,7 +77,7 @@ https://www.geeksforgeeks.org/how-to-create-a-table-with-fixed-header-and-scroll
 
                 @endphp
 
-                <th class="{{ $freezColumnClass }}">{{ $key }}
+                <th class="{{ $freezColumnClass }} col-{{$value}}">{{ $key }}
                   <i class="sorting {{ $iconAscClass}} {{ $ascSortActiveClass }}" data-sort="asc" ></i> 
                   <i class="sorting {{ $iconDescClass}} {{ $descSortActiveClass }}" data-sort="desc"></i>
                 </th>
@@ -90,12 +90,18 @@ https://www.geeksforgeeks.org/how-to-create-a-table-with-fixed-header-and-scroll
               @foreach( $columnsHeaders as $key => $value)
                  @php
                   if ($loop->first) {
-                    $freezColumnClass = 'freezColumn';
+                     $freezColumnClass = 'freezColumn';
                   } else {
                      $freezColumnClass = '';
                   }
+
+                  $minStats = $stats[$value]['min'] ?? '';
+                  $maxStats = $stats[$value]['max'] ?? '';
                 @endphp
-                <td class="{{ $freezColumnClass }}">{{ $row[$value] }}</td>
+                <td class="{{ $freezColumnClass }} col-{{$value}}">{{ $row[$value] }} 
+                  @if($row[$value] ==  $minStats) <i class="fa fa-long-arrow-down" data-sort="asc" ></i>  @endif 
+                  @if($row[$value] ==  $maxStats) <i class="fa fa-long-arrow-up" data-sort="asc" ></i>  @endif 
+                </td>
               @endforeach
             </tr>
             @endforeach
